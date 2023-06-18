@@ -1,4 +1,4 @@
-// import HeartButton from '../Button/HeartButton'
+import HeartButton from '../Button/HeartButton'
 
 const Card = () => {
   return (
@@ -31,7 +31,7 @@ const Card = () => {
             right-3
           '
           >
-            {/* <HeartButton /> */}
+            <HeartButton />
           </div>
         </div>
         <div className='font-semibold text-lg'>Sidemen, Indonesia</div>
