@@ -6,7 +6,7 @@ import { AuthContext } from "../../providers/AuthProvider";
 import { toast } from "react-hot-toast";
 
 const SignUp = () => {
-  const {
+  const{
     createUser,
     updateUserProfile,
     signInWithGoogle,
