@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import AddRoomForm from '../../components/Form/AddRoomForms';
 import { useState } from 'react';
 import { imageUpload } from '../../api/ultils';
+import { AuthContext } from '../../providers/AuthProvider';
+import { addRoom } from '../../api/room';
 
 const AddRoom = () => {
+  const {user} = useContext(AuthContext)
+
     const [loading,setLoading] = useState(false)
     const [dates, setDates] = useState({
         startDate: new Date(),
@@ -27,8 +31,37 @@ const AddRoom = () => {
        const category = event.target.category.value
        const image = event.target.image.files[0]
        imageUpload(image)
-       .then(Data=>console.log(Data))
-       .catch(error=>{
+       .then(data=>{
+        const roomData = {
+          image: data.data.display_url,
+          location,
+          title,
+          host:{
+            name:user?.displayName,
+            image:user?.photoURL,
+            email:user?.email
+          },
+          from,
+          to,
+          price,
+          guests,
+          bedrooms,
+          bathrooms,
+          description,
+          category,
+        }
+        addRoom(roomData)
+        .then(data=>{
+          console.log(data)
+        })
+        .catch(err=>{
+          console.log(err.message)
+        })
+    
+      
+        setLoading(false)
+       })
+       .catch(err=>{
         console.log(err.message);
        setLoading(false)
        })
@@ -38,9 +71,19 @@ const AddRoom = () => {
     const handleImageChange = image => {
         setUploadButtonText(image.name)
       }  
+      const handleDateChange = (ranges) => {
+        console.log(ranges.selection);
+        setDates(ranges.selection)
+      }
     return (
         <div>
-           <AddRoomForm handleSubmit={handleSubmit} loading={loading} handleImageChange={handleImageChange} uploadButtonText={uploadButtonText} />
+           <AddRoomForm
+            handleSubmit={handleSubmit}
+           dates={dates}
+            loading={loading}
+            handleDateChange={handleDateChange}
+            handleImageChange={handleImageChange} 
+            uploadButtonText={uploadButtonText} />
         </div>
     );
 };

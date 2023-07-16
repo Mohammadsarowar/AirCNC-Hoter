@@ -6,7 +6,7 @@ import { categories } from '../Categories/CategoriesData'
 const AddRoomForm = ({
   handleSubmit,
   dates,
-  handleDates,
+  handleDateChange,
   loading = false,
   handleImageChange,
   uploadButtonText,
@@ -52,7 +52,7 @@ const AddRoomForm = ({
               <label htmlFor='location' className='block text-gray-600'>
                 Select Availability Range
               </label>
-              <DateRange rangeColors={['#F43F5E']} />
+              <DateRange onChange={handleDateChange} ranges={[dates]} rangeColors={['#F43F5E']} />
             </div>
           </div>
           <div className='space-y-6'>

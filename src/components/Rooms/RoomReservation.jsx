@@ -4,6 +4,7 @@ import Calender from './Calender';
 import Button from '../Button/Button';
 
 const RoomReservation = () => {
+
     return (
         <div className=' bg-white rounded-lg border-[1px] border-neutral-200 overflow-hidden '>
         <div className='flex flex-col gap-1 p-4'>
@@ -12,7 +13,8 @@ const RoomReservation = () => {
         </div>
        
         <hr/>
-            <Calender/>
+        <div className='flex justify-center'>  <Calender/></div>
+          
             <hr/>
             <div><Button label='Reserve'></Button></div><hr/>
             <div className='p-4 text-lg flex flex-row items-center justify-between font-semibold'>

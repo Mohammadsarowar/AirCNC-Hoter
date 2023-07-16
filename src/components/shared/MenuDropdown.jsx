@@ -4,6 +4,7 @@ import { useCallback, useContext, useState } from 'react'
 
 import { Link } from 'react-router-dom'
 import { AuthContext } from '../../providers/AuthProvider'
+// import HostModal from '../Modal/HostRequestModal'
 
 const MenuDropdown = () => {
   const { user, logOut } = useContext(AuthContext)
@@ -11,10 +12,15 @@ const MenuDropdown = () => {
   const toggleOpen = useCallback(() => {
     setIsOpen(value => !value)
   }, [])
+  const modalHandler = () => {
+    setIsOpen(false)
+    console.log('moaf');
+  }
+  const [modal,setModal] = useState()
   return (
     <div className='relative'>
       <div className='flex flex-row items-center gap-3'>
-        <div className='hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer'>
+        <div onClick={modalHandler} className='hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer'>
           AirCNC your home
         </div>
         <div
@@ -37,12 +43,20 @@ const MenuDropdown = () => {
               Home
             </Link>
             {user ? (
+              <>
+              <Link
+                  to='/dashboard'
+                  className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'
+                >
+                  Dashboard
+                </Link>
               <div
                 onClick={logOut}
                 className='px-4 py-3 hover:bg-neutral-100 transition font-semibold cursor-pointer'
               >
                 Logout
               </div>
+              </>
             ) : (
               <>
                 <Link
@@ -62,6 +76,7 @@ const MenuDropdown = () => {
           </div>
         </div>
       )}
+      {/* <HostModal isOpen={modal}/> */}
     </div>
   )
 }
