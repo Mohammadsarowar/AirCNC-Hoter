@@ -16,12 +16,12 @@ export const saveUser = user => {
       .then(data => console.log(data))
   }
  // became a host
- export const becameHost = email => {
+ export const becomeHost = email => {
   
   const currentUser = {
     role: 'host',
   }
-  fetch(`{import.meta.env.VITE_API_URL}/users/${user?.email}`, {
+ return fetch(`${import.meta.env.VITE_API_URL}/users/${email}`, {
     method: 'PUT',
     headers: {
       'content-type': 'application/json',
@@ -29,6 +29,10 @@ export const saveUser = user => {
     body: JSON.stringify(currentUser),
   })
     .then(res => res.json())
-    .then(data => console.log(data))
 }
-// be
+// get role 
+export const getRole = async email => {
+  const response = await fetch(`${import.meta.env.VITE_API_URL}/user/${email}`)
+  const data = await response.json();
+  return data?.role;
+}
