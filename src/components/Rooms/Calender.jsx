@@ -2,10 +2,12 @@ import { DateRange } from 'react-date-range'
 
 
 
-const Calender = () => {
+const Calender = ({value,handelSelect}) => {
   return (
     <DateRange
-      rangeColors={['#262626']}
+      rangeColors={['#F43F5E']}
+      ranges={[value]}
+      onChange={handelSelect}
       date={new Date()}
       direction='vertical'
       showDateDisplay={false}
@@ -14,4 +16,4 @@ const Calender = () => {
   )
 }
 
-export default Calender
+export default Calender;
