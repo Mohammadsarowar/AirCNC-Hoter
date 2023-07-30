@@ -1,23 +1,23 @@
 import { useContext } from "react"
-import { useState } from "react"
 import { AuthContext } from "../../providers/AuthProvider"
-import { getBookings } from "../../api/booking"
+import { useState } from "react"
+import { getFilterRooms } from "../../api/room"
 import { useEffect } from "react"
-import TableRow from "./TableRow"
+import RoomDataRow from "./RoomDataRow"
 
-const MyBookings = () => {
+const MyListings = () => {
     const {user} = useContext(AuthContext)
-    const [bookings, setBookings] = useState([])
-    const fetchBookings = async () => {
-        getBookings(user?.email)
+    const [room, setRoom] = useState([])
+    const fetchRoom = async () => {
+        getFilterRooms(user?.email)
         .then(data => {
-            setBookings(data)
+            setRoom(data)
         })
     }
-   useEffect(() => {
-    fetchBookings()
-   },[user])
-
+    useEffect(() => {
+       fetchRoom() 
+    },[user])
+    console.log(room);
     return (
       <div className='container mx-auto px-4 sm:px-8'>
         <div className='py-8'>
@@ -60,16 +60,21 @@ const MyBookings = () => {
                       scope='col'
                       className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                     >
-                      Action
+                      Delete
+                    </th>
+                    <th
+                      scope='col'
+                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
+                    >
+                      Update
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                 {
-                   bookings.map(booking => <TableRow key={booking._id} booking={booking} fetchBookings={fetchBookings}/>
-                    )
+                    room.map(room => <RoomDataRow fetchRooms={fetchRoom} key={room._id} room={room}/>)
                 }
-                </tbody>
+               </tbody>
               </table>
             </div>
           </div>
@@ -78,4 +83,4 @@ const MyBookings = () => {
     )
   }
   
-  export default MyBookings
+  export default MyListings

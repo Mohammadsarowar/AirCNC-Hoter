@@ -7,8 +7,10 @@ import { AuthContext } from "../../providers/AuthProvider";
 import BookingModal from "../Modal/BookingModal";
 import { addBooking, updateStatus } from "../../api/booking";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const RoomReservation = ({roomData}) => {
+  const navigate = useNavigate()
     const {user, role} = useContext(AuthContext)
    // Price Calculation
    const totalPrice =
