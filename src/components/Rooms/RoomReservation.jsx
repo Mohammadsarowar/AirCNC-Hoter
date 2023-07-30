@@ -41,10 +41,10 @@ const [value, setValue] = useState({
         Image:roomData?.image
 
     })
-    console.log(bookingInfo);
-console.log(totalPrice);
+
       const handleSelect = ranges => {
-    setValue({ ...value })
+    setValue({...ranges.selection})
+    console.log(ranges.selection);
   }
   const modelHandel = () => {
     addBooking(bookingInfo)

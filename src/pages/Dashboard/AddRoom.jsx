@@ -16,6 +16,7 @@ const AddRoom = () => {
         endDate: new Date(),
         key: 'selection',
       })
+      console.log(dates);
     const [uploadButtonText , setUploadButtonText] = useState('Upload image')
     //handle from submit 
     const handleSubmit = (event)=>{
