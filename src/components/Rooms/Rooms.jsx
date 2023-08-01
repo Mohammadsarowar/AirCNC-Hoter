@@ -39,7 +39,7 @@ const Rooms = () => {
           <Card key={index} room={room} />
         ))}
       </div>:
-      <div className="pt-12">
+      <div className=" min-h-[calc(100vh-300px)] flex items-center justify-center">
         <Heading 
         title='No Rooms Available in this category'
         subtitle='Please select other categories'

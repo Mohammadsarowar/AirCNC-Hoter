@@ -4,6 +4,7 @@ import { AuthContext } from "../../providers/AuthProvider"
 import { getBookings } from "../../api/booking"
 import { useEffect } from "react"
 import TableRow from "./TableRow"
+import EmptyState from "../../components/shared/EmptyState"
 
 const MyBookings = () => {
     const {user} = useContext(AuthContext)
@@ -76,7 +77,7 @@ const MyBookings = () => {
             </div>
           </div>
         </div>
-      </div> : <h1>No bookings</h1>
+      </div> : <EmptyState message="You didn't have any bookings yet" address={'/'} label={'Browse Rooms'}/>
       }
       </>
     )
