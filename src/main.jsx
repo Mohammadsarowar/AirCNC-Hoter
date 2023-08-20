@@ -7,10 +7,17 @@ import { RouterProvider } from 'react-router-dom'
 import AuthProvider from './providers/AuthProvider'
 import { router } from './routes/Routes'
 import { Toaster } from 'react-hot-toast'
-
+import {
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query'
+const queryClient = new QueryClient()
 ReactDOM.createRoot(document.getElementById('root')).render(
   <AuthProvider>
-    <Toaster />
+   <QueryClientProvider client={queryClient}>
+        <Toaster />
     <RouterProvider router={router} />
+    </QueryClientProvider>
+  
   </AuthProvider>
 )

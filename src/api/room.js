@@ -17,17 +17,17 @@ export const getRooms = async () => {
 
 }
 //get filter data
-export const getFilterRooms = async (email) => {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/getRoomsData/${email}`, {
+// export const getFilterRooms = async (email) => {
+//     const response = await fetch(`${import.meta.env.VITE_API_URL}/getRoomsData/${email}`, {
      
-    headers: {
+//     headers: {
    
-      authorization: `Bearer ${localStorage.getItem('access-token')}`,
-    },
-    });
-    const result = await response.json();
-    return result;
-}
+//       authorization: `Bearer ${localStorage.getItem('access-token')}`,
+//     },
+//     });
+//     const result = await response.json();
+//     return result;
+// }
 //get single data
 export const getRoom = async (id) => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/getRoom/${id}`);
