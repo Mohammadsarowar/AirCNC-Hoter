@@ -20,7 +20,6 @@ const CategoriesBox = ({label,icon:Icon}) => {
       },{skipNull : true})
       navigate(url)
     }
-    console.log(value);
     return (
         <div onClick={handleClick} className='flex cursor-pointer flex-col items-center justify-center gap-2 p-3 border-b-2
         hover:text-neutral-800 border-transparent text-neutral-500'>

@@ -53,7 +53,6 @@ const UpdateRoomModal = ({ isOpen, room, id, setIsEditModal, refetch}) => {
       from: ranges.selection.startDate,
     })
   }
-  console.log(roomData)
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as='div' className='relative z-10' onClose={()=>setIsEditModal(false)}>

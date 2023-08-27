@@ -12,13 +12,20 @@ import { useNavigate } from "react-router-dom";
 const RoomReservation = ({roomData}) => {
   const navigate = useNavigate()
     const {user, role} = useContext(AuthContext)
+    const [dates, setDates] = useState({
+      startDate: new Date(),
+      endDate: new Date(),
+      key: 'selection',
+    })
+    console.log(dates);
    // Price Calculation
    const totalPrice =
    parseFloat(
-     formatDistance(new Date(roomData.to), new Date(roomData.from)).split(
+     formatDistance(new Date( dates?.startDate), new Date(dates.endDate)).split(
        ' '
      )[0]
-   ) * roomData.price
+   ) * roomData.price;
+   console.log(totalPrice);
 const [value, setValue] = useState({
     startDate: new Date(),
     endDate: new Date(),
@@ -32,8 +39,8 @@ const [value, setValue] = useState({
     const [bookingInfo, setBookingInfo] = useState({
         guest:{name:user?.name,email:user?.email,image:user?.photoURL},
         host:roomData?.host.email,
-        location:roomData.location,
-        price:totalPrice,
+        location:roomData?.location,
+        price:totalPrice || roomData?.price ,
         to:value.endDate,
         from:value.startDate,
         title:roomData?.title,
@@ -41,11 +48,15 @@ const [value, setValue] = useState({
         Image:roomData?.image
 
     })
-
+   
       const handleSelect = ranges => {
     setValue({...ranges.selection})
+    setDates(ranges.selection)
     console.log(ranges.selection);
+
   }
+  
+  
   // const modelHandel = () => {
   //   addBooking(bookingInfo)
   //     .then(data => {
@@ -81,7 +92,7 @@ const [value, setValue] = useState({
         <hr />
         <div className="p-4 text-lg flex flex-row items-center justify-between font-semibold">
           <div>Total</div>
-          <div>$ {totalPrice}</div>
+          <div>$ {totalPrice||roomData?.price} </div>
         </div>
       </div>
    <BookingModal bookingInfo={bookingInfo}
