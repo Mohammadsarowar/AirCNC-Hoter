@@ -46,23 +46,23 @@ const [value, setValue] = useState({
     setValue({...ranges.selection})
     console.log(ranges.selection);
   }
-  const modelHandel = () => {
-    addBooking(bookingInfo)
-      .then(data => {
-        console.log(data)
+  // const modelHandel = () => {
+  //   addBooking(bookingInfo)
+  //     .then(data => {
+  //       console.log(data)
 
-        updateStatus(roomData?._id, true)
+  //       updateStatus(roomData?._id, true)
 
-          .then(data => {
-            console.log(data)
-            toast.success('Booking Successful!')
-            navigate('/dashboard/my-bookings')
-            closeModal()
-          })
-          .catch(err => console.log(err))
-      })
-      .catch(err => console.log(err))
-  }
+  //         .then(data => {
+  //           console.log(data)
+  //           toast.success('Booking Successful!')
+  //           navigate('/dashboard/my-bookings')
+  //           closeModal()
+  //         })
+  //         .catch(err => console.log(err))
+  //     })
+  //     .catch(err => console.log(err))
+  // }
   return (
     <div className=" bg-white rounded-lg border-[1px] border-neutral-200 overflow-hidden ">
       <div className="flex flex-col gap-1 p-4">
@@ -84,7 +84,9 @@ const [value, setValue] = useState({
           <div>$ {totalPrice}</div>
         </div>
       </div>
-   <BookingModal bookingInfo={bookingInfo} modalHandler={modelHandel} isOpen={isOpen}
+   <BookingModal bookingInfo={bookingInfo}
+    // modalHandler={modelHandel} 
+   isOpen={isOpen}
         closeModal={closeModal} />
     </div>
   );
