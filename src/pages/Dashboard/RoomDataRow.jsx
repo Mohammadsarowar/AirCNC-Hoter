@@ -85,9 +85,10 @@ const RoomDataRow = ({ room, refetch }) => {
           modalHandler={modalHandler}
           id={room._id}/>
       </td>
-        <UpdateRoomModal refetch={refetch}
+        <UpdateRoomModal 
+        refetch={refetch}
         room={room}
-         id={room?.id}
+         id={room?._id}
          isOpen={isEditModal} 
          setIsEditModal={setIsEditModal}/>
     </tr>

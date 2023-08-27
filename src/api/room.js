@@ -51,6 +51,7 @@ export const deleteRoom = async id => {
 //update room 
 // update a room
 export const updateRoom = async (roomData, id) => {
+  console.log(id);
   const response = await fetch(`${import.meta.env.VITE_API_URL}/rooms/${id}`, {
     method: 'PUT',
     headers: {
