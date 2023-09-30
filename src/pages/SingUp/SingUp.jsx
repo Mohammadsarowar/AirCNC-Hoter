@@ -58,6 +58,7 @@ const SignUp = () => {
               .then(() => {
               toast.success('Signup successful')
                 saveUser(result.user)
+              console.log(result.user);
                 navigate(fromLocation, { replace: true });
               })
               .catch((err) => {

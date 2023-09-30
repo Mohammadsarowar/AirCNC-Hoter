@@ -2,7 +2,9 @@
 
 export const saveUser = user => {
     const currentUser = {
-      email: user.email,
+      name:user?.displayName,
+      email:user?.email,
+      Image:user?.photoURL
     }
   
     fetch(`${import.meta.env.VITE_API_URL}/users/${user?.email}`, {
