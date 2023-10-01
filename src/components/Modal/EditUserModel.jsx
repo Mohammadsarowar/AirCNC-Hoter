@@ -1,15 +1,56 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext } from 'react';
 import { Dialog, Transition } from '@headlessui/react'
 import { useForm, Controller } from 'react-hook-form';
 import { AiFillCloseCircle } from 'react-icons/ai';
-const EditUserModel = ({isOpen,closeModal}) => {
-    const { control, handleSubmit, formState, reset } = useForm();
+import { saveUser } from '../../api/auth';
+import toast from 'react-hot-toast';
+import { AuthContext } from '../../providers/AuthProvider';
+import { useLocation, useNavigate } from 'react-router-dom';
+const EditUserModel = ({isOpen, closeModal, getData}) => {
+    const { control, handleSubmit, formState, reset, register } = useForm();
   const { isSubmitting } = formState;
-   
+  const{
+    loading,
+    setLoading,
+  } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const fromLocation = location.state?.from?.pathName || "/";
   const onSubmit = (data) => {
     // Handle the form submission, update the user's data, etc.
     console.log(data);
+    const fromData = new FormData();
+    fromData.append("image", data?.image);
+    const url = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGDB_API}`;
+      fetch(url, {
+        method: "POST",
+        body: fromData,
+      })
+        .then((res) => res.json())
+        .then((img) => {
+        //   const imgUrl = img.data.display_url;
+          console.log(img);
+                // .then(() => {
+                toast.success('Signup successful')
+                  saveUser(data)
+                console.log(data);
+                  navigate(fromLocation, { replace: true });
+                })
+                .catch((err) => {
+                  console.log(err.message);
+                  toast.error(err.message);
+                  setLoading(false);
+                });
+  
+           
+          
+     
+      
   };
+
+ 
+
+  
     return (
         <Transition appear show={isOpen} as={Fragment}>
         <Dialog as='div' className='relative z-10' onClose={closeModal}>
@@ -42,7 +83,6 @@ const EditUserModel = ({isOpen,closeModal}) => {
                     className='flex justify-between text-3xl font-medium leading-6 text-gray-900 '
                   >
                     Edit Profile
-
                     <AiFillCloseCircle onClick={()=>closeModal()} className='w-8 h-8'/>
                   </Dialog.Title>
                   <div className="">
@@ -53,26 +93,11 @@ const EditUserModel = ({isOpen,closeModal}) => {
             <Controller
               name="fullName"
               control={control}
-              defaultValue="John Doe"
+              defaultValue={getData?.name}
               render={({ field }) => (
                 <input
                   {...field}
                   type="text"
-                  className="w-full p-2 border border-gray-300 rounded"
-                />
-              )}
-            />
-          </div>
-          <div className="mt-3">
-            <h3 className="text-xl font-semibold">Email</h3>
-            <Controller
-              name="email"
-              control={control}
-              defaultValue="john@example.com"
-              render={({ field }) => (
-                <input
-                  {...field}
-                  type="email"
                   className="w-full p-2 border border-gray-300 rounded"
                 />
               )}
@@ -97,6 +122,14 @@ const EditUserModel = ({isOpen,closeModal}) => {
               )}
             />
           </div>
+          <div className="mt-3">
+            <h3 className="text-xl font-semibold">Gender</h3>
+            <select {...register("gender")} className='border border-gray-300 rounded w-full p-2'>
+        <option value="female">female</option>
+        <option value="male">male</option>
+        <option value="other">other</option>
+      </select>
+            </div>
           <div className="mt-3">
             <h3 className="text-xl font-semibold">Phone</h3>
             <Controller
