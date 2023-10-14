@@ -7,20 +7,31 @@ import { FaRegAddressCard, FaEdit } from "react-icons/fa";
 import EditUserModel from "../../components/Modal/EditUserModel";
 import axios from "axios";
 import { AuthContext } from "../../providers/AuthProvider";
+import { useGetPostsQuery } from "../../redux/features/api/baseApi";
+
+
 
 const Profile = () => {
     const {user} = useContext(AuthContext)
   let [isOpen, setIsOpen] = useState(false);
+ const {data,isLoading,isError} = useGetPostsQuery()
+  console.log(data);
+  if(isLoading){
+    return <p>Loading...</p>
+  }
+  if(!isLoading && isError){
+    return <p>xxxxxxx...</p>
+  }
   // Make a request for a user with a given ID
-  const [data, setData] = useState([]);
- console.log(data);
+  const [userData, setData] = useState([]);
+ console.log(userData);
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_API_URL}/user/${user?.email}`) // Replace with the correct API endpoint
       .then((response) => {
         setData(response.data);
       })
       .catch((error) => {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching userData:', error);
       });
   }, []);
   function closeModal() {
@@ -47,11 +58,11 @@ const Profile = () => {
             <div className="w-full mx-auto ">
               <div className="text-center">
                 <img
-                  src={data?.Image}
+                  src={userData?.Image}
                   alt="User Avatar"
                   className="w-32 h-32 rounded-full mx-auto mb-4"
                 />
-                <h2 className="text-2xl font-bold">{data?.name}</h2>
+                <h2 className="text-2xl font-bold">{userData?.name}</h2>
                 <p className="text-gray-600">Web Developer</p>
               </div>
               <div className="mt-6 border-4 border-indigo-500/7 rounded-full p-5 flex gap-3 items-center">
@@ -62,7 +73,7 @@ const Profile = () => {
               <div className="mt-6 border-4 border-indigo-500/7 rounded-full p-5 flex gap-3 items-center">
                 <CgMail className="w-6 h-6" />
                 <h3 className="text-xl font-semibold">Email: </h3>
-                <p className="0 font-serif">{data?.email}</p>
+                <p className="0 font-serif">{userData?.email}</p>
               </div>
               <div className="mt-6 border-4 border-indigo-500/7 rounded-full p-5 flex gap-3 items-center">
                 <BsTelephoneOutbound className="w-6 h-6" />
@@ -159,7 +170,7 @@ const Profile = () => {
         </div>
       </div>
       <EditUserModel
-        getData={data} 
+        getData={userData} 
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         closeModal={closeModal}
