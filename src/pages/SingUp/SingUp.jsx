@@ -41,6 +41,7 @@ const SignUp = () => {
     const imagePhoto = from.image.files[0];
     const fromData = new FormData();
     fromData.append("image", imagePhoto);
+    console.log(imagePhoto);
     const url = `https://api.imgbb.com/1/upload?key=${
       import.meta.env.VITE_IMGDB_API
     }`;

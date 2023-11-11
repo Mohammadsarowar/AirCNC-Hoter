@@ -6,7 +6,9 @@ import { saveUser } from '../../api/auth';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../../providers/AuthProvider';
 import { useLocation, useNavigate } from 'react-router-dom';
+import {  useSetPostMutation } from '../../redux/features/api/baseApi';
 const EditUserModel = ({isOpen, closeModal, getData}) => {
+  const {_id, email} = getData
     const { control, handleSubmit, formState, reset, register } = useForm();
   const { isSubmitting } = formState;
   const{
@@ -16,38 +18,47 @@ const EditUserModel = ({isOpen, closeModal, getData}) => {
   const navigate = useNavigate();
   const location = useLocation();
   const fromLocation = location.state?.from?.pathName || "/";
-  const onSubmit = (data) => {
-    // Handle the form submission, update the user's data, etc.
-    console.log(data);
-    const fromData = new FormData();
-    fromData.append("image", data?.image);
-    const url = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGDB_API}`;
-      fetch(url, {
-        method: "POST",
-        body: fromData,
-      })
-        .then((res) => res.json())
-        .then((img) => {
-        //   const imgUrl = img.data.display_url;
-          console.log(img);
-                // .then(() => {
-                toast.success('Signup successful')
-                  saveUser(data)
-                console.log(data);
-                  navigate(fromLocation, { replace: true });
-                })
-                .catch((err) => {
-                  console.log(err.message);
-                  toast.error(err.message);
-                  setLoading(false);
-                });
-  
-           
-          
-     
-      
-  };
+  const [setPost,{data:postData}] = useSetPostMutation()
+  console.log(postData);
+  const onSubmit = async (data) => {
+    try {
+      const imagePhoto = data.image;
+      const formData = new FormData();
+      formData.append("image", imagePhoto);
 
+      const apiKey = import.meta.env.VITE_IMGDB_API;
+
+      if (!apiKey) {
+        console.error("API key is missing.");
+        return;
+      }
+
+      const url = `https://api.imgbb.com/1/upload?key=${apiKey}`;
+
+      // Upload the image to ImgBB
+      const imgResponse = await fetch(url, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!imgResponse.ok) {
+        throw new Error("Image upload failed.");
+      }
+
+      const imgData = await imgResponse.json();
+      const imgUrl = imgData.data.display_url;
+
+      // Update user data using the setPost mutation
+      const response = await setPost({ email, ...data, image: imgUrl });
+
+      console.log("User data updated successfully:", response);
+
+      // Handle the success response, if needed
+    } catch (error) {
+      console.error("Error updating user data:", error);
+      // Handle errors, e.g., show an error message to the user
+    }
+  }
  
 
   

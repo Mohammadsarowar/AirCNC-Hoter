@@ -16,15 +16,10 @@ const Profile = () => {
   let [isOpen, setIsOpen] = useState(false);
  const {data,isLoading,isError} = useGetPostsQuery()
   console.log(data);
-  if(isLoading){
-    return <p>Loading...</p>
-  }
-  if(!isLoading && isError){
-    return <p>xxxxxxx...</p>
-  }
+ 
   // Make a request for a user with a given ID
   const [userData, setData] = useState([]);
- console.log(userData);
+ console.log(userData.data);
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_API_URL}/user/${user?.email}`) // Replace with the correct API endpoint
       .then((response) => {
@@ -68,7 +63,12 @@ const Profile = () => {
               <div className="mt-6 border-4 border-indigo-500/7 rounded-full p-5 flex gap-3 items-center">
                 <HiOutlineUserCircle className="w-6 h-6" />
                 <h3 className="text-xl font-semibold">Full Name: </h3>
-                <p className="bg-base-200 font-serif">John Doe</p>
+                {
+                  userData?.data? <p className="bg-base-200 font-serif">{userData?.data?.fullName} 
+               </p>:<p className="bg-base-200 font-serif">{userData?.name} 
+               </p>
+                }
+               
               </div>
               <div className="mt-6 border-4 border-indigo-500/7 rounded-full p-5 flex gap-3 items-center">
                 <CgMail className="w-6 h-6" />
@@ -78,14 +78,17 @@ const Profile = () => {
               <div className="mt-6 border-4 border-indigo-500/7 rounded-full p-5 flex gap-3 items-center">
                 <BsTelephoneOutbound className="w-6 h-6" />
                 <h3 className="text-xl font-semibold">Phone: </h3>
-                <p className=" font-serif">(123) 456-7890</p>
+                {
+                  userData?.data?  <p className=" font-serif">{userData?.data?.phone}</p>: <p className=" font-serif">Update your Number</p> 
+                }
+              
               </div>
               <div className="mt-6 border-4 border-indigo-500/7 rounded-full p-5 flex gap-3 items-center">
                 <FaRegAddressCard className="w-6 h-6" />
                 <h3 className="text-xl font-semibold">Address: </h3>
-                <p className=" font-serif text-slate-50">
-                  123 Main Street, City, Country
-                </p>
+                {
+                  userData?.data?  <p className=" font-serif text-slate-50">{userData?.data?.contactInfo}</p>: <p className=" font-serif">Update your Address</p> 
+                }
               </div>
             </div>
           </div>
@@ -122,23 +125,37 @@ const Profile = () => {
               Contact Information
             </h3>
             <ul className="text-gray-700 font-serif">
-              <li>Email: john@example.com</li>
-              <li>Phone: (123) 456-7890</li>
+            <li>
+            {
+              userData?.data? <p>{userData?.email}</p>:'null'
+            }
+             
+            </li>
+            <li>
+            {
+              userData?.data? <p>{userData?.data?.phone}</p>:'Update your phone'
+            }
+             
+            </li>
             </ul>
           </div>
           <div className="m-6">
             <h3 className="text-xl font-semibold">Bio</h3>
+           
             <p className="text-gray-700">
-              I'm a web developer with a passion for creating amazing web
-              experiences. I enjoy learning new technologies and building
-              innovative projects.
+            {
+              userData?.data? <p>{userData?.data?.bio}</p>:'Update your bio'
+            }
+             
             </p>
           </div>
           <div className="m-6">
             <h3 className="text-xl font-semibold">Hobbies</h3>
             <p className="text-gray-700">
-              In my free time, I love hiking, reading, and playing the guitar.
-              I'm also a coffee enthusiast and enjoy exploring new coffee shops.
+            {
+              userData?.data? <p>{userData?.data?.hobbies}</p>:'Update your Hobbies'
+            }
+             
             </p>
           </div>
           {/* Additional Information Fields */}

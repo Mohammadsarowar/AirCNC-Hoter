@@ -1,18 +1,26 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseApi = createApi({
-  reducerPath: 'api',
+  reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5000',
+    baseUrl: "https://aircnc-server-29w4y484l-mdsarowarhang-gmailcom.vercel.app",
   }),
   endpoints: (builder) => ({
     // Define your API endpoints here
     // For example:
     getPosts: builder.query({
-      query: () => '/getRoomsData', // API endpoint URL
+      query: () => "/getRoomsData", // API endpoint URL
+    }),
+    setPost: builder.mutation({
+      // Use builder.mutation
+      query: ({ email, data }) => ({
+        url: `/users/${email}`,
+        method: "PUT",
+        body: { data: data },
+      }),
     }),
   }),
 });
 
-export const { useGetPostsQuery } = baseApi;
+export const { useGetPostsQuery, useSetPostMutation } = baseApi;
 export default baseApi;
